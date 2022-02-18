@@ -4,7 +4,7 @@
 
 ## Description 
 
-Week 9 Homework at Adelaide Uni Coding Bootcamp was to create a node.js application to ask a bunch of questions about a business structure and create a new html document with this relevent data. 
+Week 10 Homework at Adelaide Uni Coding Bootcamp was to create a node.js application to ask a bunch of questions about a business structure and create a new html document with this relevent data. 
 The is to hava a my team webpage that deplays a manager and all the other employees.
 
 ## Table of contents 

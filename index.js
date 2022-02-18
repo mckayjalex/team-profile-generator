@@ -5,13 +5,85 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 
 const employees = [];
-
+// Initialize function
+function init() {
+    questions();
+}
+// Genrates all HTML data
+function generateHTML(data) {
+    let cards = '';
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].getRole() === 'Manager') {
+            cards += `
+            <div
+                class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
+                <div class="flex flex-col items-center pb-10">
+                    <h3 class="mb-1 pt-10 text-xl font-medium text-gray-900 dark:text-white"><${data[i].getName()}</h3>
+                    <span class="text-sm mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: ${data[i].getEmail()}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Phone Number: ${data[i].getNumber()}</p>
+                </div>
+            </div>`;
+        }
+        if (data[i].getRole() === 'Engineer') {
+            cards += `
+            <div
+                class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
+                <div class="flex flex-col items-center pb-10">
+                    <h3 class="mb-1 pt-10 text-xl font-medium text-gray-900 dark:text-white"><${data[i].getName()}</h3>
+                    <span class="text-sm mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: ${data[i].getEmail()}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Github: ${data[i].getGithub()}</p>
+                </div>
+            </div>`;
+        }
+        if (data[i].getRole() === 'Intern') {
+            cards += `
+            <div
+                class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
+                <div class="flex flex-col items-center pb-10">
+                    <h3 class="mb-1 pt-10 text-xl font-medium text-gray-900 dark:text-white"><${data[i].getName()}</h3>
+                    <span class="text-sm mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: ${data[i].getEmail()}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">School: ${data[i].getSchool()}</p>
+                </div>
+            </div>`;
+        }
+    }
+    return `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Team</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body>
+        <header
+            class="h-24 flex items-center justify-center text-xl bg-gray-500 text-white shadow-md shadow-slate-500 mb-24">
+            <h1>My Team</h1>
+        </header>
+        <main class="container mx-auto">
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                ${cards}
+            </section>
+        </main>
+    </body>
+    </html>
+    `
+}
+// Function for creating HTML document
 function writeFile(data) {
-    fs.writeFile('team.html', data, (err) => {
-        if(err) {
+
+    fs.writeFile("./dist/team.html", data, (err) => {
+        if (err) {
             console.log(`Error: ${err}! Please try again!`);
         }
-        console.log(filename, 'Created Successfully!')
+        console.log('HTML Created Successfully!')
     })
 }
 
@@ -75,8 +147,7 @@ function questions() {
         .then((val) => {
             const manager = new Manager(val.name, val.id, val.email, val.number);
             employees.push(manager);
-            console.log(employees);
-            if(val.type === 'Engineer') {
+            if (val.type === 'Engineer') {
                 engineerQuestions();
             }
             if (val.type === 'Intern') {
@@ -114,21 +185,21 @@ function internQuestions() {
                 name: 'type',
                 message: `Would you like to add another team member?`,
                 type: 'list',
-                choices: ['Engineer', 'Intern', 'I dont want to add any more team members']
+                choices: ['Engineer', 'Intern', 'No']
             }
         ])
         .then((val) => {
             const intern = new Intern(val.name, val.id, val.email, val.school);
             employees.push(intern);
-            console.log(employees);
-            if(val.type === 'Engineer') {
+            if (val.type === 'Engineer') {
                 engineerQuestions();
             }
             if (val.type === 'Intern') {
                 internQuestions();
             }
-            if(val.type === 'No') {
-                writeFile(employees);
+            if (val.type === 'No') {
+                // generateHTML(employees);
+                writeFile(generateHTML(employees));
             }
         })
         .catch((err) => console.error(`Error: ${err}! Please try again!`));
@@ -168,17 +239,18 @@ function engineerQuestions() {
         .then((val) => {
             const engineer = new Engineer(val.name, val.id, val.email, val.github);
             employees.push(engineer);
-            console.log(employees);
-            if(val.type === 'Engineer') {
+            if (val.type === 'Engineer') {
                 engineerQuestions();
             }
             if (val.type === 'Intern') {
                 internQuestions();
             }
-            if(val.type === 'No') {
-                writeFile();
+            if (val.type === 'No') {
+                // generateHTML(employees);
+                writeFile(generateHTML(employees));
             }
         })
         .catch((err) => console.error(`Error: ${err}! Please try again!`));
 }
-questions();
+
+init();

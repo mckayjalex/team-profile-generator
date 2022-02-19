@@ -1,4 +1,4 @@
-// 
+// Imports needed for this file 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -19,10 +19,11 @@ function generateHTML(data) {
             <div
                 class="bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex flex-col items-center pb-10">
+                <i class="text-4xl pt-10 text-white fa-solid fa-user-secret"></i>
                     <h3 class="mb-1 pt-10 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
                     <span class="text-md mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: <a href = "mailto: ${data[i].getEmail()}">${data[i].getEmail()}</a></p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: <a href = "mailto: ${data[i].getEmail()}" class="hover:text-white">${data[i].getEmail()}</a></p>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Phone Number: ${data[i].getNumber()}</p>
                 </div>
             </div>`;
@@ -32,7 +33,8 @@ function generateHTML(data) {
             <div
                 class="bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex flex-col items-center pb-10">
-                    <h3 class="mb-1 pt-10 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
+                    <i class="text-4xl fa-solid pt-10 fa-house-laptop"></i>
+                    <h3 class="mb-1 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
                     <span class="text-md mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: <a href = "mailto: ${data[i].getEmail()}" class="hover:text-white">${data[i].getEmail()}</a></p>
@@ -45,6 +47,7 @@ function generateHTML(data) {
             <div
                 class="bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
                 <div class="flex flex-col items-center pb-10">
+                    <i class="text-4xl fa-solid pt-10 fa-briefcase"></i>
                     <h3 class="mb-1 pt-10 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
                     <span class="text-md mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
@@ -62,6 +65,7 @@ function generateHTML(data) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>My Team</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://kit.fontawesome.com/0f4878dd04.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <header
@@ -78,16 +82,37 @@ function generateHTML(data) {
     `
 }
 // Function for creating HTML document
-function writeFile(data) {
-
-    fs.writeFile("./dist/team.html", data, (err) => {
-        if (err) {
-            console.log(`Error: ${err}! Please try again!`);
-        }
-        console.log('HTML Created Successfully!')
-    })
+function writeFile(data, filename) {
+    let  file = filename.toLowerCase();
+    if (fs.existsSync(__dirname + `/dist/${file}s-team.html`)) {
+        console.log(`File ${file} already exists!! Please select a new file name!`)
+        inquirer 
+            .prompt([
+                {
+                    name: 'filename',
+                    message: `Please enter a new filename?`,
+                    type: 'input'
+                }
+            ])
+            .then((val) => {
+                fs.writeFile(__dirname + `/dist/${val.filename.toLowerCase()}s-team.html`, data, (err) => {
+                    if (err) {
+                        console.log(`Error: ${err}! Please try again!`);
+                    }
+                    console.log('HTML Created Successfully!');
+                })
+            })
+    }
+    else { 
+        fs.writeFile(__dirname + `/dist/${file}s-team.html`, data, (err) => {
+            if (err) {
+                console.log(`Error: ${err}! Please try again!`);
+            }
+            console.log('HTML Created Successfully!');
+        })
+    }
 }
-// 
+// Function to validate weather a correct email has been entered
 const emailValidator = (email) => {
     const emailAddress = email;
 
@@ -96,7 +121,7 @@ const emailValidator = (email) => {
     }
     return "Please enter a valid email address!";
 }
-// 
+// Function to validate whether a given number is of the correct data type and length
 const numberValidator = (number) => {
     let num = number;
     if (!isNaN(num) && num.length >= 8) {
@@ -104,7 +129,7 @@ const numberValidator = (number) => {
     }
     return "Please enter at least an 8 digit phone number!";
 }
-// 
+// Function to validate whether a given ID number is the correct data type and length
 const idValidator = (id) => {
     let num = id;
     if (!isNaN(num) && num.length <= 4) {
@@ -112,7 +137,7 @@ const idValidator = (id) => {
     }
     return 'Please enter a number no bigger then 4 digits!'
 }
-// 
+// Function too asks all the base questions
 function questions() {
     inquirer
         .prompt([
@@ -160,7 +185,7 @@ function questions() {
         })
         .catch((err) => console.error(`Error: ${err}! Please try again!`));
 }
-// 
+// Function too asks all the questions related to an intern
 function internQuestions() {
     inquirer
         .prompt([
@@ -204,12 +229,12 @@ function internQuestions() {
             }
             if (val.type === 'No') {
                 // generateHTML(employees);
-                writeFile(generateHTML(employees));
+                writeFile(generateHTML(employees), employees[0].getName());
             }
         })
         .catch((err) => console.error(`Error: ${err}! Please try again!`));
 }
-// 
+// Function too asks all the questions related to an engineer
 function engineerQuestions() {
     inquirer
         .prompt([
@@ -253,7 +278,7 @@ function engineerQuestions() {
             }
             if (val.type === 'No') {
                 // generateHTML(employees);
-                writeFile(generateHTML(employees));
+                writeFile(generateHTML(employees), employees[0].getName());
             }
         })
         .catch((err) => console.error(`Error: ${err}! Please try again!`));

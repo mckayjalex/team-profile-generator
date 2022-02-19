@@ -18,9 +18,9 @@ function generateHTML(data) {
             cards += `
             <div
                 class="bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
-                <div class="flex flex-col items-center pb-10">
-                <i class="text-4xl pt-10 text-white fa-solid fa-user-secret"></i>
-                    <h3 class="mb-1 pt-10 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
+                <div class="flex flex-col items-center pb-4">
+                <i class="text-4xl  text-white fa-solid pt-6 fa-user-secret"></i>
+                    <h3 class="mb-1 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
                     <span class="text-md mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: <a href = "mailto: ${data[i].getEmail()}" class="hover:text-white">${data[i].getEmail()}</a></p>
@@ -32,13 +32,13 @@ function generateHTML(data) {
             cards += `
             <div
                 class="bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
-                <div class="flex flex-col items-center pb-10">
-                    <i class="text-4xl fa-solid pt-10 fa-house-laptop"></i>
+                <div class="flex flex-col items-center pb-4">
+                    <i class="text-4xl text-white fa-solid pt-6 fa-house-laptop"></i>
                     <h3 class="mb-1 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
                     <span class="text-md mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: <a href = "mailto: ${data[i].getEmail()}" class="hover:text-white">${data[i].getEmail()}</a></p>
-                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Github: <a href = "https://github.com/${data[i].getGithub()}" class="hover:text-white">${data[i].getGithub()}</a></p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Github: <a href = "https://github.com/${data[i].getGithub()}" class="hover:text-white" target="_blank">${data[i].getGithub()}</a></p>
                 </div>
             </div>`;
         }
@@ -46,9 +46,9 @@ function generateHTML(data) {
             cards += `
             <div
                 class="bg-white rounded-lg border border-gray-200 shadow-2xl dark:bg-gray-800 dark:border-gray-700">
-                <div class="flex flex-col items-center pb-10">
-                    <i class="text-4xl fa-solid pt-10 fa-briefcase"></i>
-                    <h3 class="mb-1 pt-10 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
+                <div class="flex flex-col items-center pb-4">
+                    <i class="text-4xl text-white fa-solid pt-6 fa-briefcase"></i>
+                    <h3 class="mb-1 text-3xl font-medium text-gray-900 dark:text-white">${data[i].getName()}</h3>
                     <span class="text-md mb-6 text-gray-500 dark:text-gray-400">${data[i].getRole()}</span>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">ID: ${data[i].getId()}</p>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Email: <a href = "mailto: ${data[i].getEmail()}" class="hover:text-white">${data[i].getEmail()}</a></p>
@@ -69,11 +69,11 @@ function generateHTML(data) {
     </head>
     <body>
         <header
-            class="h-24 flex items-center justify-center text-xl bg-gray-500 text-white shadow-md shadow-slate-500 mb-24">
-            <h1>My Team</h1>
+            class="h-24 flex items-center justify-center text-xl bg-gray-500 text-white shadow-md shadow-slate-500 mb-8 sm:mb-24">
+            <h1 class="sm:text-4xl">${data[0].getName()}'s Team</h1>
         </header>
         <main class="container sm:mx-auto">
-            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <section class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 mx-8 gap-8">
                 ${cards}
             </section>
         </main>
@@ -84,8 +84,8 @@ function generateHTML(data) {
 // Function for creating HTML document
 function writeFile(data, filename) {
     let  file = filename.toLowerCase();
-    if (fs.existsSync(__dirname + `/dist/${file}s-team.html`)) {
-        console.log(`File ${file} already exists!! Please select a new file name!`)
+    if (fs.existsSync(__dirname + `/dist/${file}-team.html`)) {
+        console.log(`File ${file} already exists!! Please enter a new file name?`)
         inquirer 
             .prompt([
                 {
@@ -95,20 +95,21 @@ function writeFile(data, filename) {
                 }
             ])
             .then((val) => {
-                fs.writeFile(__dirname + `/dist/${val.filename.toLowerCase()}s-team.html`, data, (err) => {
+                let newName = val.filename.toLowerCase();
+                fs.writeFile(__dirname + `/dist/${newName}-team.html`, data, (err) => {
                     if (err) {
                         console.log(`Error: ${err}! Please try again!`);
                     }
-                    console.log('HTML Created Successfully!');
+                    console.log(`${newName}s-team.html Created Successfully!`);
                 })
             })
     }
     else { 
-        fs.writeFile(__dirname + `/dist/${file}s-team.html`, data, (err) => {
+        fs.writeFile(__dirname + `/dist/${file}-team.html`, data, (err) => {
             if (err) {
                 console.log(`Error: ${err}! Please try again!`);
             }
-            console.log('HTML Created Successfully!');
+            console.log(`${file}s-team.html Created Successfully!`);
         })
     }
 }

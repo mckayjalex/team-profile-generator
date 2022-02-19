@@ -17,11 +17,12 @@ The is to hava a my team webpage that deplays a manager and all the other employ
 
 > [Walkthrough Video]()
 
-> [Live HTML]()
-
 > [Github Repo](https://github.com/mckayjalex/team-profile-generator)
 
 ## Screenshots 
+
+Webpage
+![Webpage](images/profile-webpage.png)
 
 Code
 ![Code](images/sample-html-code.png)

@@ -30,8 +30,8 @@ Code
 Command Line
 ![Command Line Input](images/node-code.png)
 
-Command Line Tests (Jests)
-![Command Line Tests]()
+Command Line Tests (Jest)
+![Command Line Tests](images/jest-test-code.png)
 
 ## Contact
 

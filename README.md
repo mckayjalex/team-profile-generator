@@ -30,6 +30,9 @@ Code
 Command Line
 ![Command Line Input](images/node-code.png)
 
+Command Line Tests (Jests)
+![Command Line Tests]()
+
 ## Contact
 
 GitHub: [GitHub](https://github.com/mckayjalex) Email: [alexjosephmckay@gmail.com](alexjosephmckay@gmail.com)

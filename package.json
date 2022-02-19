@@ -6,6 +6,6 @@
   "scripts": {
     "start": "node index",
     "watch": "nodemon index",
-    "test": "jest"
+    "test": "jest --watchAll --verbose --coverage"
   }
 }

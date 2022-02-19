@@ -117,7 +117,7 @@ function writeFile(data, filename) {
 const emailValidator = (email) => {
     const emailAddress = email;
 
-    if (emailAddress.includes('.') && emailAddress.includes('@') && emailAddress.includes('.com')) {
+    if (emailAddress.includes('.') && emailAddress.includes('@') && emailAddress.includes('.com    ')) {
         return true;
     }
     return "Please enter a valid email address!";

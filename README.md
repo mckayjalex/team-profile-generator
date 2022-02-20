@@ -15,7 +15,7 @@ The is to hava a my team webpage that deplays a manager and all the other employ
 
 ## Resources
 
-> [Walkthrough Video]()
+> [Walkthrough Video](https://youtu.be/8CdpJQ4mC1I)
 
 > [Github Repo](https://github.com/mckayjalex/team-profile-generator)
 
